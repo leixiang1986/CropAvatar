@@ -61,6 +61,7 @@
 
     if (maxMoveWidth <= 0 && maxMoveHeight <= 0) {
         NSLog(@"UIGestureRecognizerStateBegan");
+        
         return;
     }
 
@@ -77,36 +78,59 @@
     if (pan.state == UIGestureRecognizerStateChanged) {
         CGPoint point = [pan translationInView:self];
         NSLog(@"point:%@", NSStringFromCGPoint(point));
-        CGFloat D_value = 0;//超越边界的差值,增加滑动的阻力效果
+        CGFloat D_valueX = 0;//超越边界的差值,增加滑动的阻力效果
+        CGFloat D_valueY = 0;
         if (maxMoveWidth > 0) {
+            newOriginalX = self.startLocation.x - point.x;
             if (newOriginalX < minX) {
-               D_value = minX - newOriginalX ;
+               D_valueX = minX - newOriginalX ;
             } else {
                 if (newOriginalX > maxX) {
-                    D_value = newOriginalX - maxX;
+                    D_valueX = newOriginalX - maxX;
                 }
                 else {
-                    D_value = 0;
+                    D_valueX = 0;
                 }
             }
-            newOriginalX = self.startLocation.x - point.x;
+
         }
 
         if (maxMoveHeight > 0) {
-            newOriginalY = self.startLocation.y - point.y;
-            NSLog(@"newOriginalY:%f--%f--%f",self.startLocation.y,point.y,newOriginalY);
+            newOriginalY = self.startLocation.y - point.y ;
+
+            if (newOriginalY < minY) {
+                D_valueY = minY - newOriginalY;
+            } else {
+                if (newOriginalY > maxY) {
+                    D_valueY = newOriginalY - maxY;
+                }
+                else {
+                    D_valueY = 0;
+                }
+            }
+
+            NSLog(@"newOriginalY:%f--%f--%f---%f",self.startLocation.y,point.y,newOriginalY,D_valueY);
         }
+
 
         CGRect bounds = self.bounds;
         bounds.origin = CGPointMake(newOriginalX, newOriginalY);
         self.bounds = bounds;
         NSLog(@"self.bounds:%@",NSStringFromCGRect(self.bounds));
+        //重新初始化
+//        [pan setTranslation:CGPointZero inView:self];
+//        self.startLocation = self.bounds.origin;
     }
 
     if (pan.state == UIGestureRecognizerStateEnded) {
         //不同状态下的数据不能公用,是重新执行方法，所以这里newOriginalX,newOriginalY需要重新赋值
-        newOriginalX = self.bounds.origin.x;
-        newOriginalY = self.bounds.origin.y;
+
+
+        CGPoint velocity = [pan velocityInView:self];
+
+        newOriginalX = self.bounds.origin.x - velocity.x * 0.2;
+        newOriginalY = self.bounds.origin.y - velocity.y * 0.2;
+
         //判断边界值
         if (newOriginalX < minX) {
             newOriginalX = minX;
@@ -123,9 +147,12 @@
                 newOriginalY = maxY;
             }
         }
+
+
+
         CGRect bounds = CGRectMake(newOriginalX, newOriginalY, self.bounds.size.width, self.bounds.size.height);
         NSLog(@"最终的frame:%@",NSStringFromCGRect(bounds));
-        [UIView animateWithDuration:0.25 delay:0 options:(UIViewAnimationOptionCurveLinear) animations:^{
+        [UIView animateWithDuration:0.25 delay:0 options:(UIViewAnimationOptionCurveEaseOut) animations:^{
             self.bounds = bounds;
         } completion:^(BOOL finished) {
             
