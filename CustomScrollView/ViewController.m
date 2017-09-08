@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "OKCustomScrollView.h"
 
 @interface ViewController ()
 
@@ -17,6 +18,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+
+    OKCustomScrollView *scrollView = [[OKCustomScrollView alloc] initWithFrame:CGRectMake(0, 0, 375, 500)];
+    scrollView.backgroundColor = [UIColor lightGrayColor];
+    scrollView.contentSize = CGSizeMake(200, 750);
+    [self.view addSubview:scrollView];
+
+    UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    btn.frame = CGRectMake(100, 100, 100, 40);
+    btn.backgroundColor = [UIColor redColor];
+    [scrollView addSubview:btn];
 }
 
 
