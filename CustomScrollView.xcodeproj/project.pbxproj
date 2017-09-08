@@ -19,6 +19,7 @@
 		D3B2A6781F62724D00754F8E /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = D3B2A6771F62724D00754F8E /* 1.png */; };
 		D3B2A67C1F62814200754F8E /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = D3B2A67B1F62814200754F8E /* 2.png */; };
 		D3B2A67F1F62973500754F8E /* OKCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B2A67E1F62973500754F8E /* OKCropView.m */; };
+		D3B2A6821F62A63A00754F8E /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B2A6811F62A63A00754F8E /* SecondViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		D3B2A67B1F62814200754F8E /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
 		D3B2A67D1F62973500754F8E /* OKCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKCropView.h; sourceTree = "<group>"; };
 		D3B2A67E1F62973500754F8E /* OKCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKCropView.m; sourceTree = "<group>"; };
+		D3B2A6801F62A63A00754F8E /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		D3B2A6811F62A63A00754F8E /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +103,8 @@
 				D3B2A6501F622C8800754F8E /* AppDelegate.m */,
 				D3B2A6521F622C8800754F8E /* ViewController.h */,
 				D3B2A6531F622C8800754F8E /* ViewController.m */,
+				D3B2A6801F62A63A00754F8E /* SecondViewController.h */,
+				D3B2A6811F62A63A00754F8E /* SecondViewController.m */,
 				D3B2A67D1F62973500754F8E /* OKCropView.h */,
 				D3B2A67E1F62973500754F8E /* OKCropView.m */,
 				D3B2A6711F622CC100754F8E /* OKCustomScrollView.h */,
@@ -241,6 +246,7 @@
 				D3B2A67F1F62973500754F8E /* OKCropView.m in Sources */,
 				D3B2A6541F622C8800754F8E /* ViewController.m in Sources */,
 				D3B2A6511F622C8800754F8E /* AppDelegate.m in Sources */,
+				D3B2A6821F62A63A00754F8E /* SecondViewController.m in Sources */,
 				D3B2A6761F62699000754F8E /* CustomScrollView.m in Sources */,
 				D3B2A6731F622CC100754F8E /* OKCustomScrollView.m in Sources */,
 				D3B2A64E1F622C8700754F8E /* main.m in Sources */,

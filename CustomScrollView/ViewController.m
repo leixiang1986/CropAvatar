@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "CustomScrollView.h"
+#import "SecondViewController.h"
 
 @interface ViewController ()<UIScrollViewDelegate>
 @property (nonatomic, strong) UIImageView *imageView;
@@ -21,6 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.title = @"测试功能--下一页是封装实现";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"下一页" style:(UIBarButtonItemStylePlain) target:self action:@selector(next:)];
+
     CGFloat screenWidth =  [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
     CGFloat scrollViewWidth = 200;
@@ -37,7 +41,7 @@
     scrollView.minimumZoomScale = 0.5;
     scrollView.delegate = self;
     scrollView.contentSize = self.imageView.frame.size;
-    self.automaticallyAdjustsScrollViewInsets = NO;
+
     CGFloat minScale = MAX((scrollViewWidth / self.imageView.frame.size.width),(scrollViewHeight / self.imageView.frame.size.height));
     scrollView.minimumZoomScale = minScale;
     scrollView.maximumZoomScale = 3;
@@ -47,10 +51,17 @@
     [scrollView setContentOffset:CGPointMake((scrollView.contentSize.width - scrollView.frame.size.width) * 0.5, (scrollView.contentSize.height - scrollView.frame.size.height) * 0.5)];
 
 
-    _thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    _thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, 100, 100)];
     [self.view addSubview:_thumbImageView];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
+
+- (void)next:(id)sender {
+    SecondViewController *vc = [[SecondViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
 
 - (UIImage *)thumbImageFromImage:(UIImage *)image imRect:(CGRect)rect {
 
