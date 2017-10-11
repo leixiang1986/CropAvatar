@@ -11,9 +11,9 @@
 @interface OKCropView : UIView
 
 @property (nonatomic, strong) UIImage *image;
-@property (nonatomic, assign) CGRect cropRect;
-- (instancetype)initWithFrame:(CGRect)frame cropRect:(CGRect)rect;
-
+@property (nonatomic, assign) CGSize cropSize;
+- (instancetype)initWithFrame:(CGRect)frame cropSize:(CGSize)size;
+- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE; 
 
 /**

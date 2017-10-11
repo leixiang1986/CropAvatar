@@ -35,7 +35,11 @@ static NSInteger kMaxLength = 1024 * 1024; //最大的data长度
     [self setupBottomView];
 }
 
-
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    //适配旋转
+    self.cropView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.bottomHeight);
+}
 
 - (void)addCropView {
     [self.view addSubview:self.cropView];
@@ -57,12 +61,34 @@ static NSInteger kMaxLength = 1024 * 1024; //最大的data长度
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+//    [self dropMonitorOrientationChange];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
+//    [self monitorOrientationChange];
 }
+
+///**
+// * 停止监测方向变化
+// */
+//- (void)dropMonitorOrientationChange {
+//    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+//    [nc removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+//}
+
+///**
+// * 监测屏幕旋转变化
+// */
+//- (void)monitorOrientationChange {
+//    UIDevice *device = [UIDevice currentDevice]; //Get the device object
+//    [device beginGeneratingDeviceOrientationNotifications]; //Tell it to start monitoring the accelerometer for orientation
+//    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter]; //Get the notification centre for the app
+//    [nc addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification  object:device];
+//}
+
+
+
 
 - (void)pop {
     [self.navigationController popViewControllerAnimated:YES];
@@ -71,12 +97,11 @@ static NSInteger kMaxLength = 1024 * 1024; //最大的data长度
 
 - (OKCropView *)cropView {
     if (!_cropView) {
-        _cropView = [[OKCropView alloc] initWithFrame:CGRectZero];
+        _cropView = [[OKCropView alloc] initWithFrame:CGRectMake(0, 0,self.viewWidth, self.viewHeight - self.bottomHeight) cropSize:CGSizeMake(200, 200)];
     }
-    _cropView.frame = CGRectMake(0, 0, self.viewWidth, self.viewHeight - self.bottomHeight);
+
     return _cropView;
 }
-
 
 
 /**

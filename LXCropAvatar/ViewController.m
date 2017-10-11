@@ -104,7 +104,6 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     NSDictionary *metadata = [info objectForKey:UIImagePickerControllerMediaMetadata];
     UIImage* original = [info objectForKey:UIImagePickerControllerOriginalImage];
-    NSLog(@"metadata:%@",metadata);
     [picker dismissViewControllerAnimated:YES completion:nil];
     OKCropImageViewController *vc = [[OKCropImageViewController alloc] init];
     vc.image = original;

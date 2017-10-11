@@ -43,6 +43,10 @@
 
 
 - (void)drawInContext:(CGContextRef)ctx {
+    NSLog(@"ctx:%@====%p",ctx,ctx);
+    NSLog(@"CurrentContext:%@====%p",UIGraphicsGetCurrentContext(),UIGraphicsGetCurrentContext());
+    //这个方法中是没有当前上下文的，需要把ctx压栈，才有当前的上下文，才能进行UIBezierPath的绘制工作
+    //如果不进行压栈要进行绘制就只有直接对绘图上下文ctx进行处理，如：绘制圆的方法二
     UIGraphicsPushContext(ctx);
     //创建圆形框UIBezierPath:
     UIBezierPath *pickingFieldPath = [UIBezierPath bezierPathWithOvalInRect:self.maskRect];
@@ -54,6 +58,9 @@
     //填充使用奇偶法则
     bezierPathRect.usesEvenOddFillRule = YES;
     [bezierPathRect fill];
+
+    NSLog(@"ctx:%@-----%p",ctx,ctx);
+    NSLog(@"CurrentContext:%@----%p",UIGraphicsGetCurrentContext(),UIGraphicsGetCurrentContext());
 
     //方法一:绘制的圆形有虚边，通过layer的border实现
 //    [[UIColor whiteColor] set];

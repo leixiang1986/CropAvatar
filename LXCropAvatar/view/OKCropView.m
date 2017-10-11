@@ -20,23 +20,15 @@
 
 @implementation OKCropView
 
-- (instancetype)initWithFrame:(CGRect)frame cropRect:(CGRect)rect{
-    self = [self initWithFrame:frame];
-    if (self) {
-        if (_cropRect.size.width != 0 && _cropRect.size.height != 0) {
-            _cropRect = rect;
-
-        }
-    }
-
-    return self;
-}
-
-
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame cropSize:(CGSize)cropSize{
     self = [super initWithFrame:frame];
     if (self) {
-        _scrollView = [[OKExtraHitScrollView alloc] initWithFrame:self.cropRect];
+        if (cropSize.width != 0 && cropSize.height != 0) {
+            _cropSize = cropSize;
+        }
+        CGRect scrollFrame = CGRectZero;
+        scrollFrame.size = cropSize;
+        _scrollView = [[OKExtraHitScrollView alloc] initWithFrame:scrollFrame];
         [_scrollView addSubview:self.imageView];
 
         self.backgroundColor = [UIColor blackColor];
@@ -54,10 +46,10 @@
 }
 
 
+
 - (OKCropCoverLayer *)coverLayer {
     if (!_coverLayer) {
         _coverLayer = [OKCropCoverLayer layer];
-
     }
     return _coverLayer;
 }
@@ -80,10 +72,11 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.scrollView.frame = self.cropRect;
+    self.scrollView.frame = CGRectMake(0, 0, self.cropSize.width, self.cropSize.height);
+    self.scrollView.center = CGPointMake(self.frame.size.width * 0.5, self.frame.size.height * 0.5);
     _coverLayer.bounds = self.bounds;
     _coverLayer.position = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
-    [_coverLayer setOvalInRect:self.cropRect];
+    [_coverLayer setOvalInRect:CGRectMake((self.frame.size.width - self.cropSize.width) * 0.5, (self.frame.size.height - self.cropSize.height)*0.5, self.cropSize.width, self.cropSize.height)];
     [self.layer insertSublayer:_coverLayer atIndex:(unsigned)(self.layer.sublayers.count - 1)];
 }
 
@@ -102,20 +95,20 @@
     return nil;
 }
 
-- (CGRect)cropRect {
-    if (_cropRect.size.width != 0 && _cropRect.size.height != 0) {
-        return _cropRect;
-    }
-    _cropRect.size = CGSizeMake(self.bounds.size.width * 0.6, self.bounds.size.width * 0.6);
-    _cropRect.origin = CGPointMake((self.bounds.size.width - _cropRect.size.width) * 0.5, (self.bounds.size.height - _cropRect.size.height) * 0.5);
 
-    return _cropRect;
+- (CGSize)cropSize {
+    if (_cropSize.width != 0 && _cropSize.height != 0) {
+        return _cropSize;
+    }
+    _cropSize = CGSizeMake(self.bounds.size.width * 0.6, self.bounds.size.width * 0.6);
+    return _cropSize;
 }
+
 
 
 - (UIImageView *)imageView {
     if (!_imageView) {
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.cropRect.size.width, self.cropRect.size.height)];
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.cropSize.width, self.cropSize.height)];
     }
 
     return _imageView;
@@ -142,7 +135,7 @@
     }
 
     self.imageView.frame = CGRectMake(0, 0, _image.size.width, _image.size.height);
-    CGFloat minScale = MAX((self.cropRect.size.width / self.imageView.frame.size.width),(self.cropRect.size.height / self.imageView.frame.size.height));
+    CGFloat minScale = MAX((self.cropSize.width / self.imageView.frame.size.width),(self.cropSize.height / self.imageView.frame.size.height));
 
     if (minScale > zoomScale) {
         minScale = zoomScale - 0.5;
@@ -151,7 +144,9 @@
     if (maxScale < zoomScale) {
         maxScale = zoomScale + 0.5;
     }
-    _scrollView.frame = self.cropRect;
+
+    self.scrollView.frame = CGRectMake((self.frame.size.width - self.cropSize.width) *0.5, (self.frame.size.height - self.cropSize.height) *0.5, self.cropSize.width, self.cropSize.height);
+    self.scrollView.center = CGPointMake(self.frame.size.width * 0.5, self.frame.size.height * 0.5);
     _scrollView.minimumZoomScale = minScale;
     _scrollView.maximumZoomScale = maxScale;
     _scrollView.contentSize = self.imageView.frame.size;
